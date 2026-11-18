@@ -26,7 +26,8 @@ export function LearnIndex() {
             {CATEGORIES.map((item) => (
               <li key={item}>
                 <button type="button" className="rs-chip" aria-pressed={category === item} onClick={() => setCategory(item)}>
-                  {item}<small>{filterTracks(TRACKS, item, "").length}</small>
+                  {/* Counted within the current search, so the number is what a click on this chip shows. */}
+                  {item}<small>{filterTracks(TRACKS, item, query).length}</small>
                 </button>
               </li>
             ))}

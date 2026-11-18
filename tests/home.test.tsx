@@ -57,6 +57,8 @@ describe("home page", () => {
     expect(titles()).toEqual(["Data structures in practice"]);
     expect(host.querySelector(".rs-count")?.textContent).toBe("Showing 1 of 3 paths in Data");
     type("feedback");
+    // Chip counts follow the search: each number is what a click on that chip shows.
+    expect([...host.querySelectorAll(".rs-chip")].map((b) => b.textContent)).toEqual(["All1", "Frontend0", "Data0", "Systems1"]);
     expect(host.querySelector(".rs-empty h3")?.textContent).toBe("No path matches");
     expect(host.querySelector(".rs-count")?.textContent).toBe("Showing 0 of 3 paths in Data for “feedback”");
     act(() => [...host.querySelectorAll<HTMLButtonElement>(".rs-empty button")][0].click());
