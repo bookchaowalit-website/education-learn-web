@@ -20,3 +20,12 @@ export function filterTracks(tracks: Track[], category: string, query: string): 
 export function toggleStarted(started: string[], id: string): string[] {
   return started.includes(id) ? started.filter((item) => item !== id) : [...started, id];
 }
+
+export function getTrack(id: string): Track | undefined {
+  return TRACKS.find((track) => track.id === id);
+}
+
+/** The module count and time are descriptive scope (there are no lessons to open), so say "outline". */
+export function trackScope(track: Track): string {
+  return `${track.modules} ${track.modules === 1 ? "module" : "modules"} · ${track.time} (outline)`;
+}

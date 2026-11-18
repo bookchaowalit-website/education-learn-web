@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, TRACKS, filterTracks, toggleStarted } from "@/lib/learn";
+import { CATEGORIES, TRACKS, filterTracks, getTrack, toggleStarted, trackScope } from "@/lib/learn";
 
 describe("learning paths", () => {
   it("has one filter per track category plus All", () => {
@@ -19,5 +19,16 @@ describe("learning paths", () => {
     expect(once).toEqual(["next"]);
     expect(toggleStarted(once, "data")).toEqual(["next", "data"]);
     expect(toggleStarted(once, "next")).toEqual([]);
+  });
+
+  it("finds a path by id and nothing for an unknown or unsafe id", () => {
+    expect(getTrack("data")?.title).toBe("Data structures in practice");
+    expect(getTrack("nope")).toBeUndefined();
+    expect(getTrack("__proto__")).toBeUndefined();
+  });
+
+  it("describes a path's scope as an outline, not as lessons to open", () => {
+    expect(trackScope(TRACKS[0])).toBe("6 modules · 2h 40m (outline)");
+    expect(trackScope({ ...TRACKS[0], modules: 1 })).toBe("1 module · 2h 40m (outline)");
   });
 });

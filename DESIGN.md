@@ -1,67 +1,28 @@
 ---
-title: "Learn — Field Notes"
+title: "Learn — Reader shell"
 status: "active"
-updated: "2026-08-24"
+updated: "2026-11-19"
 ---
 
-# Learn — Field Notes
+# Learn — design
 
-## Overview
+Since 2026-11-19 Learn runs on the shared **Reader shell** (see [READER.md](READER.md)); the shell files are
+copied byte for byte from `content-techblog-web`, the source of truth. The earlier "field notes" look
+(cream paper, coral pencil, Avenir/Georgia) was retired with the 2026-11-11 UX review: its muted, coral and
+green text fell below 4.5:1, labels were 10–11px, tabs and buttons were under 44px, the search field had no
+focus ring, Avenir Next is missing on Android/Windows/Linux, and on a 390px phone the first path sat below
+the first screen.
 
-Learn is a compact catalog of learning paths. It is designed as a field notebook:
-each row answers what the path is, how much it contains, and what the next action
-is. The demo content is intentionally small and labeled as static.
+## Pages
 
-## Colors
+- `/`: head (the learning promise), live search, one subject filter (chips with `aria-pressed`), a result
+  count, the paths as cards (level and scope, summary, subject), and an empty state with "Clear search and
+  filter".
+- `/paths/<id>`: back link, subject, title, summary as lede, level and scope, a note that the page is an
+  outline with nothing to open yet, a scope table, an in-memory "Mark as in progress" toggle that says it is
+  not saved, and previous/next.
 
-- **Field cream** — `#F1EEE5`, paper ground.
-- **Ink green** — `#27352D`, primary type and rules.
-- **Coral pencil** — `#E2694E`, active path marks and action.
-- **Subject blue** — `#527C8D`, alternate subject signal.
-- **Leaf green** — `#758A59`, systems subject signal.
-- **Notebook yellow** — `#E2C85F`, a small directional accent.
-- No gradients and no dark-mode dashboard treatment.
+## Do's and don'ts
 
-## Typography
-
-- Avenir Next / Trebuchet MS is the working sans voice.
-- Georgia gives path titles and editorial annotations a slower reading cadence.
-- Monospace is reserved for counts, category tags, and scope metadata.
-
-## Layout
-
-- The hero frames learning as choosing a route.
-- Search and subject tabs sit above one ruled path list.
-- Each path is a numbered editorial row with category, summary, scope, and one
-  action.
-- Mobile preserves the numbered rail and moves the action under the description.
-
-## Elevation & Depth
-
-- Paper tint shifts and rules provide hierarchy.
-- Hover is a quiet paper change; no floating card stack or large shadow.
-- Progress is a text state in this local demo, not a fabricated completion chart.
-
-## Shapes
-
-- Ruled rows and compact rounded filter tabs.
-- Actions are underlined editorial links rather than pill buttons.
-- Numbered markers create a strong left rail.
-
-## Components
-
-- **Field header** — edition, scope, and learning promise.
-- **Path search** — live title/summary/category filter.
-- **Subject tabs** — All, Frontend, Data, Systems.
-- **Path row** — scope, modules, duration, level, and start/continue state.
-- **Empty state** — honest message when the query has no match.
-
-## Do's and Don'ts
-
-- Do keep learning scope visible before asking for a start.
-- Do distinguish static demo content from a real LMS.
-- Do preserve the path's category and next action hierarchy.
-- Don't imply lessons, accounts, or progress persistence that do not exist.
-- Don't present every path as a generic equal card.
-- Don't add a crowded dashboard or a hero illustration that competes with the route.
-
+- Do keep scope visible and labelled as an outline ("6 modules · 2h 40m (outline)").
+- Don't imply lessons, accounts or saved progress that do not exist.
