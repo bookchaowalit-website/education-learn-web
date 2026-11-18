@@ -31,6 +31,12 @@ const type = (value: string) => act(() => {
 });
 
 describe("home page", () => {
+  it("filters live without a form, so Enter never sends the query to the server", () => {
+    act(() => root.render(<Home />));
+    expect(host.querySelector("form")).toBeNull();
+    expect(host.querySelector('input[type="search"]')?.hasAttribute("name")).toBe(false);
+  });
+
   it("renders the head and every path as a card linking to its page, with honest scope", () => {
     const html = renderToString(<Home />);
     expect(html).toContain("Make a path through the noise.");
@@ -56,6 +62,7 @@ describe("home page", () => {
     act(() => [...host.querySelectorAll<HTMLButtonElement>(".rs-empty button")][0].click());
     expect(titles().length).toBe(3);
     expect(host.querySelector<HTMLInputElement>('input[type="search"]')?.value).toBe("");
+    expect(document.activeElement).toBe(host.querySelector('input[type="search"]'));
     type("router");
     expect(titles()).toEqual(["Next.js mastery"]);
     act(() => [...host.querySelectorAll<HTMLButtonElement>(".rs-search button")].find((b) => b.textContent === "Clear")!.click());
@@ -72,8 +79,12 @@ describe("path page", () => {
     expect(host.querySelector(".rs-article-head h1")?.textContent).toBe("Data structures in practice");
     expect([...host.querySelectorAll(".rs-meta li")].map((li) => li.textContent)).toEqual(["Foundation", "4 modules · 1h 20m (outline)"]);
     expect(host.querySelector(".rs-prose")?.textContent).toContain("there is nothing to open yet");
+    expect(host.querySelector('.rs-table[role="region"]')?.getAttribute("aria-label")).toBe("Path scope");
+    expect(host.querySelectorAll(".rs-table table th[scope=row]").length).toBe(4);
     expect([...host.querySelectorAll(".rs-pager a")].map((a) => a.getAttribute("href"))).toEqual(["/paths/next", "/paths/systems"]);
-    expect((await generateMetadata({ params: Promise.resolve({ id: "data" }) })).alternates?.canonical).toBe("/paths/data");
+    const meta = await generateMetadata({ params: Promise.resolve({ id: "data" }) });
+    expect(meta.alternates?.canonical).toBe("/paths/data");
+    expect(meta.openGraph).toMatchObject({ title: "Data structures in practice | Learn Paths", description: "A compact field guide to choosing shapes that make the next decision easier to see.", url: "/paths/data" });
   });
 
   it("answers not found for an unknown path", async () => {
@@ -85,11 +96,14 @@ describe("path page", () => {
     act(() => root.render(<MarkProgress title="Systems thinking" />));
     const button = host.querySelector("button")!;
     expect(button.textContent).toBe("Mark as in progress");
+    expect(button.getAttribute("aria-pressed")).toBe("false");
     act(() => button.click());
+    // A toggle keeps one name; aria-pressed carries the state.
+    expect(button.textContent).toBe("Mark as in progress");
     expect(button.getAttribute("aria-pressed")).toBe("true");
     expect(host.querySelector("[role=status]")?.textContent).toContain("not saved");
     act(() => button.click());
-    expect(button.textContent).toBe("Mark as in progress");
+    expect(button.getAttribute("aria-pressed")).toBe("false");
   });
 });
 

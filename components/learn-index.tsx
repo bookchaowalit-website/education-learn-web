@@ -10,7 +10,12 @@ export function LearnIndex() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const shown = filterTracks(TRACKS, category, query);
-  const reset = () => { setQuery(""); setCategory("All"); };
+  // The Clear button disappears with the empty state, so focus goes back to the search field.
+  const reset = () => {
+    setQuery("");
+    setCategory("All");
+    document.querySelector<HTMLInputElement>(".rs-search input")?.focus();
+  };
   return (
     <section aria-labelledby="paths-title">
       <h2 id="paths-title" className="rs-sr">Paths</h2>

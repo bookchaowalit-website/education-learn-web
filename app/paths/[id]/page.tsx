@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArticleHeader, Pager, Prose, neighbours } from "@/components/reader-shell";
+import { ArticleHeader, Pager, Prose, TableScroll, neighbours } from "@/components/reader-shell";
 import { LearnFrame, levelLabel } from "@/components/learn-frame";
 import { MarkProgress } from "@/components/mark-progress";
 import { TRACKS, getTrack, trackScope } from "@/lib/learn";
@@ -16,7 +16,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const track = getTrack((await params).id);
   if (!track) return { title: "Path not found" };
-  return { title: `${track.title} | Learn Paths`, description: track.summary, alternates: { canonical: `/paths/${track.id}` } };
+  const title = `${track.title} | Learn Paths`;
+  const url = `/paths/${track.id}`;
+  return { title, description: track.summary, alternates: { canonical: url }, openGraph: { type: "article", title, description: track.summary, url, siteName: "Bookchaowalit" } };
 }
 
 export default async function PathPage({ params }: Props) {
@@ -34,15 +36,17 @@ export default async function PathPage({ params }: Props) {
             This is the outline of a learning path. The module count and the time describe its scope; the lessons themselves are
             not published, so there is nothing to open yet.
           </p>
-          <table>
-            <caption className="rs-sr">Path scope</caption>
-            <tbody>
-              <tr><th scope="row">Subject</th><td>{track.category}</td></tr>
-              <tr><th scope="row">Level</th><td>{levelLabel(track.level)}</td></tr>
-              <tr><th scope="row">Modules</th><td>{track.modules}</td></tr>
-              <tr><th scope="row">Time</th><td>{track.time}</td></tr>
-            </tbody>
-          </table>
+          <TableScroll label="Path scope">
+            <table>
+              <caption className="rs-sr">Path scope</caption>
+              <tbody>
+                <tr><th scope="row">Subject</th><td>{track.category}</td></tr>
+                <tr><th scope="row">Level</th><td>{levelLabel(track.level)}</td></tr>
+                <tr><th scope="row">Modules</th><td>{track.modules}</td></tr>
+                <tr><th scope="row">Time</th><td>{track.time}</td></tr>
+              </tbody>
+            </table>
+          </TableScroll>
           <h2>Your mark</h2>
         </Prose>
         <MarkProgress title={track.title} />
