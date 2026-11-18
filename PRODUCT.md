@@ -30,12 +30,9 @@ A portfolio visitor who wants to see a calm, editorial list UI with search, a ca
 ## Live URL and deploy state
 
 - Live: https://learn.bookchaowalit.com (HTTP 200 on 2026-10-23).
-- The Vercel project `bookchaowalit-learn-frontend` is deployed only by CLI. The last production deploy is
-  2026-10-08 (CLI, commit ed0dd54): the CVE patch deploy did not run because the Vercel free-plan daily deploy limit
-  was hit on 2026-10-23. Its Git link names the old repository (`bookchaowalit/bookchaowalit-learn-frontend`), so a
-  push to `main` does not deploy: the CVE patch and the L2 commits stay undeployed until the coordinator redeploys
-  or the owner reconnects Vercel Git to this repository (owner action D9). Until then the live `/api/mcp` still
-  answers id 0 and "Tool called: <name>" for any tool.
+- Vercel project `bookchaowalit-learn-frontend`. Checked 2026-11-19: its Git link is
+  `bookchaowalit-website/education-learn-web`, branch `main`, and pushes to `main` deploy production from Git (last
+  Git production deploy 2026-11-10, commit a205e5c).
 - `NEXT_PUBLIC_SENTRY_DSN` is set on the Vercel project (Sentry project `education-learn-web`, org `personal-yu0`).
 
 ## Boundaries
